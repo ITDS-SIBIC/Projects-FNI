@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="contrat_tree_view" model="ir.ui.view">
+        <field name="name">contrat.tree</field>
+        <field name="model">contrat</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="conv_id"/>
+                <field name="partner_id"/>
+                <field name="objet_contrat"/>
+
+                <field name='parent_id'/>
+                <field name="currency_id" invisible="1"/>
+                <field name="montant_dz"/>
+                <field name="state" decoration-success="state in ('done', 'in_progress')"
+                       decoration-info="state == 'draft'"
+                       decoration-danger="state == 'cancel'"
+                       decoration-muted="state == 'archived'" widget="badge"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="contrat_form_view" model="ir.ui.view">
+        <field name="name">contrat.form</field>
+        <field name="model">contrat</field>
+        <field name="arch" type="xml">
+            <form string="Contrat">
+                <header>
+                        <button name="action_activate" string="Activer le contrat" invisible="state != 'draft'" class="oe_highlight" type="object"/>
+                        <button name="create_avenant" string="Créer avenant" invisible="state not in ('in_progress', 'done')" class="oe_highlight" type="object"/>
+                        <field name="state" widget="statusbar"  statusbar_visible="draft,in_progress,done"/>
+                </header>
+
+                <sheet>
+                    <h1>
+
+                        # <field name="name" class="oe_inline"/>
+<!--                        / <field name="num_avenant" class="oe_inline" invisible="type_contrat == 'contrat'"/>-->
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="conv_id" domain="[('partner_id', '=', partner_id), ('state', 'in', ('signed', 'valide' ))]" readonly="state != 'draft'"/>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="objet_contrat"/>
+                        </group>
+                        <group>
+                            <field name="num_mobilisation"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </group>
+
+                        <group >
+                            <field name="parent_id"/>
+                            <field name="num_avenant" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Montants">
+                           <group>
+                               <group>
+                                   <field name="montant_dz" readonly="state != 'draft'"/>
+                                   <field name="currency_id" invisible="1"/>
+                                   <label for="montant_devise"/>
+                                   <div>
+                                       <field name="montant_devise" options="{'currency_field': 'currency_2_id'}" class="oe_inline"/>
+                                       <field name="currency_2_id" class="oe_inline"/>
+                                   </div>
+
+                                   <field name="taux_devise"/>
+                                   <field name="part_FNI"/>
+                                   <field name="part_client"/>
+                               </group>
+
+                                <group>
+                                     <field name="Contre_valeur" />
+                                     <field name="montant_global_DA_HT" />
+                                     <field name="montant_TVA" />
+                                     <field name="montant_global_DA_TTC" />
+                                </group>
+
+                           </group>
+                        </page>
+                         <page string="Référence">
+                          <group>
+                                <group>
+                                    <field name="Co_contractants"/>
+                                </group>
+
+                            </group>
+                        </page>
+
+                        <page string="Domiciliation Bancaire ">
+                              <group>
+                                <group>
+                                    <field name="banque"/>
+                                    <field name="num_compte_Dinars"/>
+                                    <field name="agence"/>
+                                    <field name="fichier_piece_jointe_domiciliations_etranger" widget="binary" filename="domiciliations_etranger_piece" string="Engagement des domiciliations pour les fournisseurs à l’étranger Pièce Jointe"/>
+                                </group>
+
+                              </group>
+                        </page>
+
+                         <page string="Rubriques">
+                          <group>
+                                <group>
+                                    <field name="rubrique"/>
+                                    <field name="total_paiement"/>
+                                </group>
+                                <group>
+                                    <field name="montantDA_rub"/>
+                                    <field name="solde_rubrique"/>
+                                </group>
+
+                            </group>
+                        </page>
+
+                        <page string="Document">
+                          <group>
+                                <group>
+                                    <field name="nom_doc_cnt"/>
+
+                                </group>
+                                <group>
+                                    <field name="fichier_piece_jointe_doc_cnt" widget="binary" filename="doc_cnt_piece" string="Document Pièce Jointe"/>
+                                </group>
+
+                            </group>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="contrat_search_view" model="ir.ui.view">
+        <field name="name">contrat.search</field>
+        <field name="model">contrat</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="objet_contrat" />
+                <field name="partner_id" />
+                <field name="conv_id" />
+
+
+                <separator/>
+                <filter string="Nouveaux" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="En cours" name="progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Terminés" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Actifs" name="active" domain="[('state', 'in', ('draft', 'in_progress'))]"/>
+
+                <separator/>
+                <filter string="Annulés" name="cancel" domain="[('state', '=', 'cancel')]"/>
+                <filter string="Archivés" name="archived" domain="[('state', '=', 'archived')]"/>
+                <group expand="0" string="Group By">
+                        <filter string="Client" name="group_by_partner" domain="[]" context="{'group_by': 'partner_id'}"/>
+
+                        <filter string="Convention" name="group_by_conven" domain="[]" context="{'group_by': 'conv_id'}"/>
+                    </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_contrat">
+        <field name="name">Contrats</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">contrat</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="contrat_tree_view"/>
+        <field name="context">{"search_default_active":1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer un nouveau contrat.
+                </p><p>
+
+                </p><p>
+
+                </p>
+            </field>
+    </record>
+
+</odoo>

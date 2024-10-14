@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+             <record id="seq_facture" model="ir.sequence">
+               <field name="name">number_convention</field>
+               <field name="code">facture.engagement</field>
+               <field name="active">TRUE</field>
+               <field name="prefix">FE/%(range_year)s/</field>
+               <field name="padding">4</field>
+               <field name="number_next">1</field>
+               <field name="number_increment">1</field>
+               <field name="use_date_range" eval="True" />
+         </record>
+
+    </data>
+</openerp>

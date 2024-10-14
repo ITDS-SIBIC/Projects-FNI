@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_contrat,contrat user,model_contrat,base.group_user,1,1,1,1
+
+access_pret,pret user,model_pret,base.group_user,1,1,1,1
+access_rebrique,rebrique user,model_rebrique,base.group_user,1,1,1,1
+access_avenant_pret,access_avenant_pret,model_avenant_pret,,1,1,1,1

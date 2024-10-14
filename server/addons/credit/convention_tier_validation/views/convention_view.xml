@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2017 ForgeFlow S.L.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="convention_search_view" model="ir.ui.view">
+        <field name="name">convention.select - convention_tier_validation</field>
+        <field name="model">convention</field>
+        <field name="inherit_id" ref="engagement.convention_search_view" />
+        <field name="arch" type="xml">
+            <filter name="partiel" position="after">
+                <separator />
+                <filter
+                    name="needs_review"
+                    string="Needs my Review"/>
+
+
+                <filter
+                    name="tier_validated"
+                    string="Validated"
+                    domain="[('validated', '=', True)]"
+                    help="POs validated and ready to be confirmed"
+                />
+            </filter>
+        </field>
+    </record>
+
+
+    <menuitem
+        name="Processus de validation"
+        id="menu_tier_validation"
+        parent="engagement.menu_config"
+        action="base_tier_validation.tier_definition_action"
+        sequence="90"
+        />
+</odoo>

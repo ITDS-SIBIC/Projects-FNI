@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="seq_contrat" model="ir.sequence">
+            <field name="name">number_convention</field>
+            <field name="code">contrat.engagement</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">CN/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="use_date_range" eval="True" />
+        </record>
+
+        <!-- Sequence for pret -->
+        <record id="seq_pret" model="ir.sequence">
+            <field name="name">number_pret</field>
+            <field name="code">pret.engagement</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">PR/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="use_date_range" eval="True" />
+        </record>
+
+    </data>
+</openerp>

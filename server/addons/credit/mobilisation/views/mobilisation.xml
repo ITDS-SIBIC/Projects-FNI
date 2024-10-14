@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="mobilisation_tree_view" model="ir.ui.view">
+        <field name="name">mobilisation.tree</field>
+        <field name="model">mobilisation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="montant_mobilisation"/>
+                <field name="state" decoration-success="state in ('done', 'in_progress')"
+                       decoration-info="state == 'draft'"
+                       decoration-danger="state == 'cancel'"
+                       decoration-muted="state == 'archived'" widget="badge"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="mobilisation_form_view" model="ir.ui.view">
+    <field name="name">mobilisation.form</field>
+    <field name="model">mobilisation</field>
+    <field name="arch" type="xml">
+            <form string="mobilisation">
+                <header>
+                    <button name="action_activate" string="Activer la mobilisation" invisible="state != 'draft'" class="oe_highlight" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="conv_id"/>
+                            <field name="contrat_id"/>
+                            <field name="facture_id"/>
+                            <field name="num_mobilisation"/>
+                        </group>
+                        <group>
+                            <field name="montant_mobilisation"/>
+                            <field name="date_mobilisation"/>
+                            <field name="reste_mobiliser"/>
+                            <field name="date_limite_utilisation"/>
+                        </group>
+                    </group>
+                    <notebook>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="mobilisation_search_view" model="ir.ui.view">
+        <field name="name">mobilisation.search</field>
+        <field name="model">mobilisation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="conv_id" />
+                <separator/>
+                <filter string="Nouveaux" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="En cours" name="progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Terminés" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Actifs" name="active" domain="[('state', 'in', ('draft', 'in_progress'))]"/>
+                <separator/>
+                <filter string="Annulés" name="cancel" domain="[('state', '=', 'cancel')]"/>
+                <filter string="Archivés" name="archived" domain="[('state', '=', 'archived')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client" name="group_by_partner" domain="[]" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Convention" name="group_by_conven" domain="[]" context="{'group_by': 'conv_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_mobilisation">
+    <field name="name">Mobilisations</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">mobilisation</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" ref="mobilisation_tree_view"/>
+    <field name="context">{"search_default_active":1}</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Créer une nouvelle mobilisation.
+        </p>
+    </field>
+</record>
+
+</odoo>

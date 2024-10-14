@@ -1,0 +1,11 @@
+<odoo>
+
+    <menuitem
+        name="Prets"
+        id="menu_pret"
+        parent="engagement.menu_engagement_root"
+        action="action_pret"
+        sequence="100"
+    />
+
+</odoo>

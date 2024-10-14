@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+                <menuitem
+                    name="Mobilisations"
+                    id="menu_mobilisation"
+                    parent="engagement.menu_engagement_root"
+                    action="action_mobilisation"
+                    sequence="27"
+                    />
+
+</odoo>

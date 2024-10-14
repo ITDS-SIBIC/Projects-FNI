@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Pret Form View -->
+
+    <record id="pret_form_view" model="ir.ui.view">
+        <field name="name">pret.form</field>
+        <field name="model">pret</field>
+        <field name="arch" type="xml">
+
+            <form string="Prêt">
+
+                <header>
+
+                   <button name="%(action_avenant_pret_tree)d" string="Show Avenants" type="action" class="oe_highlight"/>
+                    <button name="action_verifier" string="Vérifier" type="object" class="btn btn-primary oe_highlight"/> <!-- Blue -->
+                    <button name="action_valider" string="Valider" type="object" class="btn btn-danger oe_highlight"/> <!-- Red -->
+                    <button name="action_cloturer" string="Clôturer" type="object" class="btn btn-warning oe_highlight"/> <!-- Orange -->
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button name="action_go_to_avenant" type="object" string="Accéder à l'Avenant" domain="[('state', '=', 'done')]" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done,closed"
+                           options="{'colors': {'draft': 'orange', 'in_progress': 'blue', 'done': 'green', 'closed': 'red'}}"/>
+
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="type_contrat" class="oe_inline" readonly="1"/>
+                        <field name="name" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <group>
+
+                            <field name="conv_id" domain="[('state', 'in', ('done', 'valide'))]" options="{'no_create': True}"/>
+                            <field name="partner_id" string="client" readonly="1"/>
+                            <field name="objet_contrat"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Identification" style="color: #FF5733;"> <!-- Red -->
+                            <group>
+                                <field name="source_financement" />
+                                <field name="objet_financement" />
+                                <field name="secteur_activite" />
+                                <field name="wilaya" />
+                            </group>
+                        </page>
+
+                        <page string="Conditions" style="color: #33FF57;"> <!-- Green -->
+                            <group>
+                                <group>
+                                    <field name="montant" readonly="1"/>
+                                    <field name="commission_gestion" string="Commission Gestion %" readonly="1"/>
+                                    <field name="penalite" string="Taux Pénalité de Retard %" readonly="1"/>
+                                    <field name="taux_interet" string="Taux Intérêt %" readonly="1"/>
+                                    <field name="duree_credit" string="Durée de Crédit (mois)" readonly="1"/>
+                                    <field name="date_limite" string="Date Limite" readonly="1"/>
+                                    <field name="duree_differee_mois" string="Durée Différée (mois)" readonly="1"/>
+                                    <field name="taux_interets_intercalaires" string="Taux Intérêts Intercalaires" readonly="1"/>
+                                    <field name="currency_id" invisible="1" readonly="1"/>
+                                </group>
+                                <group string="Options ">
+                                    <field name="interets_intercalaires_capitalises" />
+                                    <field name="interets_intercalaires_pris_en_charge_par_tresor" />
+                                    <field name="commission_prise_en_charge_par_tresor" />
+                                    <field name="commission_prise_en_charge_par_entreprise" />
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Conditions (Suite)" style="color: #3357FF;"> <!-- Blue -->
+                            <group string="Dates de Remboursement">
+                                <field name="periode_remb_interets" string="Période de remboursement des intérêts intercalaires" />
+                                <field name="periode_remb_principal" string="Période de remboursement du principal" />
+                                <field name="dates_fixes_remb_interets" string="Dates fixes de remboursement des intérêts intercalaires"/>
+                            </group>
+                        </page>
+
+                        <page string="Infos Complémentaires" style="color: #F1C40F;"> <!-- Yellow -->
+                            <group>
+                                <field name="service_gestionnaire" />
+                                <field name="gestionnaire_pret" />
+                                <field name="service_suivi"/>
+                                <field name="res_suivi_pret"/>
+                                <field name="date_debut_differe" string="Date début du différé" />
+                                <field name="date_fin_differe" string="Date fin du différé" />
+                            </group>
+                        </page>
+
+                        <page string="Décision Pouvoir Public/Tutuel" style="color: #8E44AD;"> <!-- Purple -->
+                            <group>
+                                <group>
+                                    <field name="dpp1"/>
+                                    <field name="ref_DPP1"/>
+                                    <field name="ref_dpp1_date"/>
+                                </group>
+                                <group>
+                                    <field name="dpp2"/>
+                                    <field name="ref_DPP2"/>
+                                    <field name="ref_dpp2_date"/>
+                                </group>
+                                <group>
+                                    <field name="dpp3"/>
+                                    <field name="ref_DPP3"/>
+                                    <field name="ref_dpp3_date"/>
+                                </group>
+                                <group>
+                                    <field name="dpp4"/>
+                                    <field name="ref_DPP4"/>
+                                    <field name="ref_dpp4_date"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="dt1"/>
+                                    <field name="dt1_date"/>
+                                </group>
+                                <group>
+                                    <field name="dt2"/>
+                                    <field name="dt2_date"/>
+                                </group>
+                                <group>
+                                    <field name="dt3"/>
+                                    <field name="dt3_date"/>
+                                </group>
+                                <group>
+                                    <field name="dt4"/>
+                                    <field name="dt4_date"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Rubriques" style="color: #E67E22;"> <!-- Orange -->
+                            <group>
+                                <group>
+                                    <field name="rebrique_ids" widget="one2many_list" mode="tree,form">
+                                        <tree editable="top">
+
+                                            <field name="montant_da"/>
+                                            <field name="total_paiement"/>
+                                            <field name="solde_rubrique"/>
+                                        </tree>
+                                        <form string="Rubrique">
+                                            <sheet>
+                                                <group>
+
+                                                    <field name="montant_da"/>
+                                                    <field name="total_paiement"/>
+                                                    <field name="solde_rubrique"/>
+                                                </group>
+                                            </sheet>
+                                            <control>
+                                                <create name="action_add_rebrique" string="Add Rubrique"/>
+                                            </control>
+                                        </form>
+                                    </field>
+                                </group>
+                                <group>
+                                    <field name="total_montant_da" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Situation du Prêt" style="color: #2C3E50;"> <!-- Dark Blue -->
+                            <group>
+                                <field name="total_mobilisation_fonds" readonly="1" string="Total Mobilisation de Fonds DGT"/>
+                                <field name="montant_utilisations" readonly="1" string="Montant des Utilisations"/>
+                                <field name="total_appel_fonds" readonly="1" string="Total Appel de Fonds DFC"/>
+                                <field name="montant_non_utilise" readonly="1" string="Montant Non Utilisé"/>
+                                <field name="encours" readonly="1" string="Encours"/>
+                            </group>
+
+                            <!-- New section for Engagements et Paiements -->
+                            <group string="Engagements et Paiements">
+                                <field name="total_engagements" readonly="1" string="Total Engagements"/>
+                                <field name="solde_engagements" readonly="1" string="Solde Engagements"/>
+                                <field name="total_paiements" readonly="1" string="Total Paiements"/>
+                                <field name="solde_paiements" readonly="1" string="Solde Paiements"/>
+                            </group>
+                        </page>
+
+                        <page string="Observations" style="color: #D35400;"> <!-- Dark Orange -->
+                            <group>
+                                <field name="observations" widget="text"/>
+                            </group>
+                        </page>
+
+                        <page string="Comptabilité" style="color: #2980B9;"> <!-- Blue -->
+                            <group>
+                                <field name="compte_comptable" string="N° de Compte Comptable"/>
+                                <field name="designation_compte_comptable" string="Désignation Compte Comptable"/>
+                            </group>
+                        </page>
+
+                        <page string="Fichiers joints" style="color: #27AE60;"> <!-- Green -->
+                            <group>
+                                <group>
+                                    <field name="nom_doc_cnt"/>
+                                </group>
+                                <group>
+                                    <field name="fichier_piece_jointe_doc_cnt" widget="binary" filename="doc_cnt_piece" string="Document Pièce Jointe"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Pret Tree View -->
+    <record id="pret_tree_view" model="ir.ui.view">
+        <field name="name">pret.tree</field>
+        <field name="model">pret</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="conv_id"/>
+                <field name="partner_id" options="{'no_create': True}"/>
+                <field name="objet_contrat"/>
+                <field name="type_contrat"/>
+                <field name="parent_id"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="montant_dz" class="oe_inline"/>
+
+                <field name="state" decoration-success="state in ('done', 'in_progress')" decoration-info="state == 'draft'" decoration-danger="state == 'cancel'" decoration-muted="state == 'archived'" widget="badge"/>
+                <field name="rebrique_ids"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Pret Search View -->
+    <record id="pret_search_view" model="ir.ui.view">
+        <field name="name">pret.search</field>
+        <field name="model">pret</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="objet_contrat"/>
+                <field name="partner_id" options="{'no_create': True}"/>
+                <field name="conv_id"/>
+
+                <filter string="Prêts" name="pret" domain="[('type_contrat', '=', 'pret')]"/>
+                <filter string="Avenants" name="avenant" domain="[('type_contrat', '=', 'avenant')]"/>
+                <separator/>
+                <filter string="Nouveaux" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="En cours" name="progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Terminés" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Actifs" name="active" domain="[('state', 'in', ('draft', 'in_progress'))]"/>
+                <separator/>
+                <filter string="Annulés" name="cancel" domain="[('state', '=', 'cancel')]"/>
+                <filter string="Archivés" name="archived" domain="[('state', '=', 'archived')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client" name="group_by_partner" domain="[]" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Type prêt" name="group_by_type" domain="[]" context="{'group_by': 'type_contrat'}"/>
+                    <filter string="Conventioncredit" name="group_by_conven" domain="[]" context="{'group_by': 'conv_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Pret Action -->
+    <record id="action_pret" model="ir.actions.act_window">
+
+        <field name="name">Prêts</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pret</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="pret_tree_view"/>
+        <field name="context">{"search_default_active": 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créer un nouveau prêt.</p>
+        </field>
+    </record>
+
+    <!-- Ensure you also have the action defined for 'avenant.pret' -->
+
+    <!-- Pret Menu Item -->
+    <menuitem
+        name="Prêts"
+        id="menu_pret"
+        parent="engagement.menu_engagement_root"
+        action="action_pret"
+        sequence="20"
+    />
+</odoo>

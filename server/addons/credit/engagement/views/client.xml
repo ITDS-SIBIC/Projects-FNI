@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<!--    <record id="client_tree_view" model="ir.ui.view">-->
+<!--        <field name="name">client.tree</field>-->
+<!--        <field name="model">client</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree>-->
+<!--                <field name="NumeroClient"/>-->
+<!--                <field name="NomRaisonSociale"/>-->
+<!--                <field name="num_telephone"/>-->
+<!--                <field name="type_client"/>-->
+<!--                <field name="Adressclient"/>-->
+<!--                <field name="NIF" optional="hide"/>-->
+<!--                <field name="NIS" optional="hide"/>-->
+<!--                <field name="state"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="client_form_view" model="ir.ui.view">
+        <field name="name">client.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="numero"/>
+            </field>
+            <field name="vat" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="vat" position="after">
+                <field name="client"/>
+                <field name="type_client" invisible="not client" required="client"/>
+            </field>
+            <field name="industry_id" position="after">
+                <field name="nif" invisible="not client" required="client"/>
+                <field name="nis" invisible="not client" required="client"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="client_search_view" model="ir.ui.view">
+        <field name="name">client.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="numero"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_client">
+        <field name="name">Clients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('client', '=', True)]</field>
+        <field name="context">{'default_client': True}</field>
+        <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer un nouveau Client.
+                </p><p>
+
+                </p><p>
+
+                </p>
+            </field>
+    </record>
+
+</odoo>

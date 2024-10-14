@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Wizard view -->
+        <record id="create_emprunt_wizard_form" model="ir.ui.view">
+            <field name="name">create.emprunt.wizard.form</field>
+            <field name="model">create.emprunt.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create Emprunt">
+                    <group>
+                        <field name="emprunt_id"/>
+                        <field name="partner_id"/>
+                        <field name="loan_type"/>
+                    </group>
+                    <footer>
+                        <button name="action_apply" string="Apply" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

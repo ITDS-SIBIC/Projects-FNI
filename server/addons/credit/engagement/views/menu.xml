@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+        <menuitem
+            name="Engagement"
+            id="menu_engagement_root"
+            web_icon="engagement,static/description/icon.png"
+            sequence="10"
+        />
+                <menuitem
+                    name="Client"
+                    id="menu_client"
+                    parent="menu_engagement_root"
+                    action="action_client"
+                    sequence="10"
+                />
+                <menuitem
+                    name="Emprunt"
+                    id="menu_convention"
+                    parent="menu_engagement_root"
+                    action="action_convention"
+                    sequence="20"
+                    />
+                <menuitem
+                    name="Configuration"
+                    id="menu_config"
+                    parent="menu_engagement_root"
+                    sequence="90"
+                    />
+
+              </odoo>

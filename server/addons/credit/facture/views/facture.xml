@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="facture_tree_view" model="ir.ui.view">
+        <field name="name">facture.tree</field>
+        <field name="model">facture</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="conv_id"/>
+                <field name='user_id'/>
+                <field name="state" decoration-success="state in ('done', 'in_progress')"
+                       decoration-info="state == 'draft'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="facture_form_view" model="ir.ui.view">
+        <field name="name">facture.form</field>
+        <field name="model">facture</field>
+        <field name="arch" type="xml">
+            <form string="Facture">
+                <header>
+                        <button name="action_activate" string="Ajouter facture" invisible="state != 'draft'" class="oe_highlight" type="object"/>
+                        <field name="state" widget="statusbar"  statusbar_visible="draft,in_progress,done"/>
+                </header>
+
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="num_mobilisation"/>
+
+                            <field name="partner_id" />
+                            <field name="conv_id" domain="[('partner_id', '=', partner_id), ('state', 'in', ('signed', 'valide' ))]"/>
+
+                        </group>
+                        <group>
+                            <field name="contratavantid"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </group>
+
+
+                    </group>
+
+                    <notebook>
+                        <page string="Montants">
+                           <group>
+                               <group>
+                                   <field name="montant_dz"/>
+                                   <field name="montant_ttc"/>
+                                   <field name="montant_client"/>
+
+                               </group>
+                               <group>
+                                   <field name="part_FNI"/>
+                                   <field name="part_client"/>
+                               </group>
+
+
+                           </group>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="facture_search_view" model="ir.ui.view">
+        <field name="name">facture.search</field>
+        <field name="model">facture</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="conv_id" />
+
+                <separator/>
+                <filter string="Nouveaux" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Actifs" name="active" domain="[('state', 'in', ('draft', 'in_progress'))]"/>
+
+                <separator/>
+
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_facture">
+        <field name="name">Factures</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">facture</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="facture_tree_view"/>
+        <field name="context">{"search_default_active":1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer un nouveau facture.
+                </p><p>
+
+                </p><p>
+
+                </p>
+            </field>
+    </record>
+
+</odoo>

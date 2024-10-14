@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Rebrique Tree View -->
+    <record id="rebrique_tree_view" model="ir.ui.view">
+        <field name="name">rebrique.tree</field>
+        <field name="model">rebrique</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Rebrique Form View -->
+    <record id="rebrique_form_view" model="ir.ui.view">
+        <field name="name">rebrique.form</field>
+        <field name="model">rebrique</field>
+        <field name="arch" type="xml">
+            <form string="Rubrique">
+                <sheet>
+                    <group>
+                        <!-- Only the name field -->
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Rebrique Action -->
+    <record id="action_rebrique" model="ir.actions.act_window">
+        <field name="name">Rubriques</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">rebrique</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="rebrique_tree_view"/>
+        <field name="context">{"search_default_active":1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer et gérer des rubriques.
+            </p>
+        </field>
+    </record>
+
+    <!-- Rebrique Menu Item -->
+    <menuitem
+        id="menu_rebrique"
+        name="Rubriques"
+        parent="engagement.menu_engagement_root"
+        action="action_rebrique"
+        sequence="100"
+    />
+</odoo>

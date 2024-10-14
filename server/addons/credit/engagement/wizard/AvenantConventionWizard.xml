@@ -1,0 +1,47 @@
+<odoo>
+    <record id="action_avenant_convention_credit_wizard" model="ir.actions.act_window">
+        <field name="name">Créer Avenant</field>
+        <field name="res_model">avenant.convention.credit.wizard</field> <!-- Updated to reflect the new model name -->
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_avenant_convention_credit_wizard" model="ir.ui.view">
+        <field name="name">avenant.convention.credit.wizard.form</field> <!-- Updated view name -->
+        <field name="model">avenant.convention.credit.wizard</field> <!-- Updated model reference -->
+        <field name="arch" type="xml">
+            <form string="Modifier la Convention">
+                <group>
+                    <field name="convention_id" readonly="1"/>
+                    <field name="objet" required="1"/>
+                    <field name="commission_gestion" required="1"/>
+                    <field name="taux_interet" required="1"/>
+                    <field name="penalite" required="1"/>
+                    <field name="montant" required="1"/>
+                    <!-- Add other fields as necessary -->
+                </group>
+                <footer>
+                    <button string="Mettre à jour" type="object" name="action_update_convention" class="btn-primary"/>
+                    <button string="Annuler" type="object" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_convention_form" model="ir.ui.view">
+        <field name="name">convention.form</field>
+        <field name="model">creditconvention</field> <!-- Updated to reference the credit convention model -->
+        <field name="arch" type="xml">
+            <form string="Convention">
+                <header>
+                    <button name="action_open_avenant_wizard" type="object" string="Modifier Avenant"
+                            states="validee" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="saisie,verifie,validee,cloturee,archived,cancel"/>
+                </header>
+                <sheet>
+                    <!-- Your existing form fields go here -->
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

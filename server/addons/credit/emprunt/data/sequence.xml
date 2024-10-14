@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Sequence for emprunt -->
+        <record id="sequence_emprunt" model="ir.sequence">
+            <field name="name">Emprunt Sequence</field>
+            <field name="code">emprunt.sequence</field>
+            <field name="prefix">EMPR</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_convention,convention user,model_convention,base.group_user,1,1,1,1
+access_conventioncredit,convention user,model_convention,base.group_user,1,1,1,1
+access_create_avenantc_wizard_user,create.avenantc.wizard user,model_create_avenantc_wizard,base.group_user,1,1,1,1
+access_create_avenantc2_wizard_user,create.avenantc2.wizard user,model_create_avenantc2_wizard,base.group_user,1,1,1,1
+access_avenant_convention_wizard_user,avenant.convention.wizard user,model_avenant_convention_wizard,base.group_user,1,1,1,1

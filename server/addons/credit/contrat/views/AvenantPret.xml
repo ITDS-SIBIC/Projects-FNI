@@ -1,0 +1,40 @@
+<odoo>
+
+     <record id="action_avenant_pret_tree" model="ir.actions.act_window">
+    <field name="name">Avenants de Prêt</field>
+    <field name="res_model">avenant.pret</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('pret_id', '=', active_id)]</field>
+    <field name="context">{'default_pret_id': active_id}</field>
+</record>
+    <record id="avenant_form_view" model="ir.ui.view">
+        <field name="name">avenant.form</field>
+        <field name="model">avenant.pret</field>
+        <field name="arch" type="xml">
+            <form string="Avenant">
+                     <header>
+                        <button name="action_signed" string="Signer la convention" invisible="state != 'active'" class="oe_highlight" type="object"/>
+                        <button name="action_validate" string="Valider la convention" invisible="state != 'signed'" class="oe_highlight" type="object"/>
+
+
+
+                    <field name="state" widget="statusbar"  statusbar_visible="active,signed,valide,enreg,done"/>
+                </header>
+
+
+                <sheet>
+                    <group>
+                        <field name="pret_id" readonly="1"/>
+                        <field name="objet_avenant" required="1"/>
+                        <field name="date_avenant" required="1"/>
+                        <field name="montant"/>
+                        <field name="taux_interet"/>
+                        <field name="state"/>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

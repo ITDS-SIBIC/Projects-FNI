@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<odoo>
+        <record id="create_avenant_form" model="ir.ui.view">
+            <field name="name">create.avenant.wizard.form</field>
+            <field name="model">create.avenant.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create avenant">
+                    <group>
+                        <group>
+                            <field name="contrat_id"/>
+                            <field name="partner_id"/>
+                            <field name="objet"/>
+                        </group>
+                        <group>
+                            <field name="date_avenant"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_appliquer" string="Appliquer" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+</odoo>

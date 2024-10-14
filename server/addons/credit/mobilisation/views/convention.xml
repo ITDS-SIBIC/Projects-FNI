@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="action_convention_mobilisation">
+        <field name="name">Mobilisations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mobilisation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="mobilisation_tree_view"/>
+        <field name="domain">[('conv_id', '=', active_id)]</field>
+        <field name="context">{"default_conv_id": active_id}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer une nouvelle mobilisation.
+                </p><p>
+
+                </p><p>
+
+                </p>
+            </field>
+    </record>
+
+    <record id="convention_mobilisation_form_view" model="ir.ui.view">
+        <field name="name">convention.mobilisation.form</field>
+        <field name="model">convention</field>
+        <field name="inherit_id" ref="engagement.convention_form_view"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="action" name="%(action_convention_mobilisation)d" invisible="state in ('active', )" icon="fa-file-text">
+                    <field string="Mobilisations" name="nbr_mobilisation" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="conventioncredit_tree_view" model="ir.ui.view">
+        <field name="name">conventioncredit.tree</field>
+        <field name="model">conventioncredit</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="objet"/>
+                <!--   <field name="num_accord"/>
+                <field name="num_enregistrement"/>
+                <field name="date_enregistrement"/>
+                <field name="type_credit"/>-->
+                <field name="date_signature"/>
+
+                <field name='type_conventioncredit'/>
+                <field name="commission_gestion" optional="hide"/>
+                <field name="penalite" optional="hide"/>
+                <field name="montant"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="state" decoration-success="state in ('valide','enreg','done')"
+                       decoration-info="state == 'active'"
+                       decoration-warning="state == 'signed'"
+                       decoration-danger="state == 'cancel'"
+                       decoration-muted="state == 'archived'"
+                       widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="conventioncredit_form_view" model="ir.ui.view">
+        <field name="name">conventioncredit.form</field>
+        <field name="model">conventioncredit</field>
+        <field name="arch" type="xml">
+            <form string="Conventioncredit Prét">
+
+
+ <header>
+                    <button name="action_verifier" string="Vérifier" type="object" class="btn btn-primary oe_highlight"/> <!-- Blue -->
+                    <button name="action_valider" string="Valider" type="object" class="btn btn-danger oe_highlight"/> <!-- Red -->
+                    <button name="action_cloturer" string="Clôturer" type="object" class="btn btn-warning oe_highlight"/> <!-- Orange -->
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+
+                    <button name="create_avenantc" string="Créer un avenant" type="object" class="oe_highlight" invisible="state not in ('done')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done,closed"
+                           options="{'colors': {'draft': 'orange', 'in_progress': 'blue', 'done': 'green', 'closed': 'red'}}"/>
+                </header>
+
+
+
+
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <h1>
+                        <field name="type_conventioncredit" class="oe_inline" readonly="True"/>
+                         <field name="name" class="oe_inline"/>
+<!--                    <field name="num_avenant" class="oe_inline" invisible="type_contrat == 'contrat'"/>-->
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="numero_conventioncredit" string="Numéro de Conventioncredit"/>
+                            <field name="objet" string="objet de conventioncredit"/>
+                            <field name="partner_id" string="bénéficiaire" domain="[('client', '=', True)]"/>
+                             options="{'no_create': True}"/>
+                             <field name="date_signature" readonly="state != 'signed'"/>
+                           <!-- <field name="type_credit" readonly="state != 'active'"/>
+                            <field name="num_accord" readonly="state != 'active'"/>
+                            <field name="num_enregistrement" readonly="True"/>-->
+                        </group>
+                        <footer>
+                            <button name="action_view_avenants" string="View Avenants" type="object" class="btn-primary" />
+                            <button string="Cancel" class="btn-secondary" special="cancel"/>
+                        </footer>
+
+                       <!-- <group>
+                            <field name="date_enregistrement" readonly="True"/>
+
+                            <field name="date_notification" readonly="state != 'active'"/>
+                            <field name="date_limite" readonly="state != 'active'"/>
+                        </group>-->
+
+                        <group string="Avenant" invisible="type_conventioncredit != 'avenant'">
+                            <field name="objet_avenant"/>
+                            <field name="parent_id"/>
+                            <field name="num_avenantcn" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Conditions">
+                            <group>
+                                <group>
+                                    <field name="montant" string="montant de credit" />
+                                    <field name="duree_annee" string="durée du credit" />
+                                    <field name="duree_mois"/>
+                             <field name="commission_gestion"  string=" taux commission gestion %" />
+                            <field name="taux_interet"  />
+                            <field name="penalite"  string="penalite de retard %" />
+                            <field name="taux_commission_intercalaire" string="taux interet intercalaire"/>
+
+
+
+
+                                    <field name="currency_id" invisible="1"/>
+
+
+
+                                </group>
+
+
+                                <group>
+
+
+
+                                    <field name="date_premiere_mobilisation" readonly="1"/>
+                                     <field name="extensions_differee_date_limite" string=" Date Limite"/>
+
+
+
+
+                                </group>
+                                   <group string="Options de Financement">
+                            <field name="interets_intercalaires_capitalises" />
+                            <field name="interets_intercalaires_pris_en_charge_par_tresor" />
+                            <field name="commission_prise_en_charge_par_tresor" />
+                            <field name="commission_prise_en_charge_par_entreprise" />
+                        </group>
+                            </group>
+                        </page>
+                        <page string="Décisions PP / Tutelle">
+                            <group>
+                                <group string="Décision Pouvoir public 01">
+                                    <field name="dpp1"/>
+                                    <field name="ref_DPP1" />
+                                    <field name="ref_dpp1_date" />
+                                </group>
+                                <group string="Décision Pouvoir public 02">
+                                    <field name="dpp2"/>
+                                    <field name="ref_DPP2" />
+                                    <field name="ref_dpp2_date" />
+                                </group>
+                                <group string="Décision Pouvoir public 03">
+                                    <field name="dpp3"/>
+                                    <field name="ref_DPP3" />
+                                    <field name="ref_dpp3_date" />
+                                </group>
+                                <group string="Décision Pouvoir public 04">
+                                    <field name="dpp4"/>
+                                    <field name="ref_DPP4" />
+                                    <field name="ref_dpp4_date" />
+                                </group>
+
+
+                                <!--<group string="Nantissement / action">
+                                    <field name="state_action"/>
+                                    <field name="nantissement_action" readonly="state_action == 'inactive'"/>
+                                    <field name="nantissement_action_date" readonly="state_action == 'inactive'"/>
+                                    <field name="fichier_piece_jointe_nantissement_action" readonly="state_action == 'inactive'" widget="binary" filename="nantissement_action_piece" string="Nantissement d\'action Pièce Jointe"/>
+                                    <field name="checkbox_field_action" string="garantie recueillie" readonly="state_action == 'inactive'"/>
+                                </group>
+
+                                <group string="Nantissement / Equipement">
+                                    <field name="state_equipement" />
+                                    <field name="nantissement_equipement"  readonly="state_equipement == 'inactive'"/>
+                                    <field name="nantissement_equipement_date" readonly="state_equipement == 'inactive'"/>
+                                    <field name="fichier_piece_jointe_nantissement_equipement"  readonly="state_equipement == 'inactive'" widget="binary" filename="nantissement_equipement_piece" string="Nantissement d\'équipement Pièce Jointe"/>
+                                    <field name="checkbox_field_equipement" string="garantie recueillie" readonly="state_equipement == 'inactive'"/>
+
+                                </group>
+
+                                <group string="Specimen de signature">
+                                    <field name="state_specimen" />
+                                    <field name="specimen_signature" readonly="state_specimen == 'inactive'"/>
+                                    <field name="specimen_signature_date" readonly="state_specimen == 'inactive'"/>
+                                    <field name="fichier_piece_jointe_specimen_signature" readonly="state_specimen == 'inactive'" widget="binary" filename="specimen_signature_piece" string="Specimen de signature Pièce Jointe"/>
+                                    <field name="checkbox_field_specimen" string="garantie recueillie" readonly="state_specimen == 'inactive'"/>
+
+                                </group>
+
+                                <group string="billet à ordre global">
+                                    <field name="state_billet" />
+                                    <field name="billet_ordre_global" readonly="state_billet == 'inactive'"/>
+                                    <field name="billet_ordre_global_date" readonly="state_billet == 'inactive'"/>
+                                    <field name="fichier_piece_jointe_billet_ordre_global" readonly="state_billet == 'inactive'" widget="binary" filename="billet_ordre_global_piece" string="Billet à ordre global Pièce Jointe"/>
+                                    <field name="checkbox_field_billet" string="garantie recueillie" readonly="state_billet == 'inactive'"/>
+
+                                </group>
+
+                                <group string="chaine billet à ordre">
+                                    <field name="state_chaine" />
+                                    <field name="chaine_billet_ordre" readonly="state_chaine == 'inactive'"/>
+                                    <field name="chaine_billet_ordre_date" readonly="state_chaine == 'inactive'"/>
+                                    <field name="fichier_piece_jointe_chaine_billet_ordre" readonly="state_chaine == 'inactive'" widget="binary" filename="chaine_billet_ordre_piece" string="Chaine de billet à ordre global Pièce Jointe"/>
+                                    <field name="checkbox_field_chaine" string="garantie recueillie" readonly="state_chaine == 'inactive'"/>
+                                </group>
+
+                                <group string="caution solidaire">
+                                    <field name="state_caution" />
+                                    <field name="caution_solidaire" readonly="state_caution == 'inactive'"/>
+                                    <field name="caution_solidaire_date" readonly="state_caution == 'inactive'"/>
+                                    <field name="fichier_piece_jointe_caution_solidaire" readonly="state_caution == 'inactive'" widget="binary" filename="caution_solidaire_piece" string="Caution solidaire Pièce Jointe"/>
+                                    <field name="checkbox_field_caution" string="garantie recueillie" readonly="state_caution == 'inactive'"/>
+                                </group>
+
+                                  <group string="Garantie financière">
+                                    <field name="state_financiere" />
+                                    <field name="garantie_fianciere" readonly="state_financiere == 'inactive'"/>
+                                    <field name="garantie_fianciere_date" readonly="state_financiere == 'inactive'"/>
+                                    <field name="fichier_piece_jointe_garantie_fianciere" readonly="state_financiere == 'inactive'" widget="binary" filename="garantie_fianciere_piece" string="Garantie financière Pièce Jointe"/>
+                                    <field name="checkbox_field_garantie_fianciere" string="garantie recueillie" readonly="state_financiere == 'inactive'"/>
+                                </group>
+
+                                    <group string="Autre / Assurance et subrogation d'assurance">
+                                    <field name="state_assurance" />
+                                    <field name="assurance" readonly="state_financiere == 'inactive'"/>
+                                    <field name="assurance_date" readonly="state_assurance == 'inactive'"/>
+                                    <field name="fichier_piece_jointe_assurancee" readonly="state_assurance == 'inactive'" widget="binary" filename="assurance_piece" string="Autre / Assurance et subrogation d'assurance Pièce Jointe"/>
+                                    <field name="checkbox_field_assurance" string="garantie recueillie" readonly="state_assurance == 'inactive'"/>
+                                </group>-->
+
+                            </group>
+
+
+                        </page>
+                        <page string="Description">
+                            <field name="description" widget="html"/>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="convention_search_view" model="ir.ui.view">
+        <field name="name">convention.search</field>
+        <field name="model">convention</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="num_accord" />
+                <field name="objet" />
+                <filter string="Type Tier" name="tier" domain="[('type_credit', '=', 'tier')]"/>
+                <filter string="Type partiel" name="partiel" domain="[('type_credit', '=', 'partiel')]"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_convention">
+        <field name="name">Conventions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">convention</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="convention_tree_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer une nouvelle convention.
+                </p><p>
+
+                </p><p>
+
+                </p>
+            </field>
+    </record>
+
+</odoo>
